@@ -1,4 +1,5 @@
 source('util.R')
+library(plyr)
 
 # corpus.dtm - document term matrix
 # training_data - 1:153
@@ -54,8 +55,8 @@ write(lexicalDtm$vocab, 'data/blei/mc_vocab_test4.dat')
 
 
 #RUN THE HDP EXE AS:
-#hdp --algorithm train --data "data\blei\mc_input.dat" --directory "results\models\hdp" --random_seed 54
-#hdp --algorithm train --data "data\blei\mc_e_input.dat" --directory "results\models\hdp_e" --random_seed 54
+#hdp\bin\hdp.exe --algorithm train --data "data\blei\mc_input.dat" --directory "results\models\hdp" --random_seed 177
+#hdp\bin\hdp.exe --algorithm train --data "data\blei\mc_e_input.dat" --directory "results\models\hdp_e" --random_seed 177
 
 print.topics <- function(words.fn, vocab.fn, topics.fn, top.n=5) 
 {
@@ -91,10 +92,24 @@ print.topics <- function(words.fn, vocab.fn, topics.fn, top.n=5)
   return (topics)
 }
 
+print.terms <- function(words_assign.fn) 
+{
+  df <-  as.data.frame(read.table(words_assign.fn))
+  vocab <- readLines(vocab.fn, warn=FALSE)
+  
+  colnames(df) <- c('d', 'w', 'z', 't')
+  df = df[-1,]
+  df$t <- NULL
+  
+  df <- ddply(df, .(d,w,z), nrow)
+  colnames(df)[4] <- 'count'
+  
+  return (df)
+}
 
-saveToFileAndLoadCsv <- function(prefix, top.n, modelPath, vocab){
+
+saveToFileAndLoadCsv <- function(prefix, top.n, modelPath){
   words.fn <- paste0(modelPath, prefix,'-topics.dat')
-  vocab.fn <- paste0("data/blei/", vocab)
   topics.fn <- paste0(modelPath, 'display-',prefix,'-topics.dat')
   topics <- print.topics(words.fn, vocab.fn, topics.fn, top.n)
   return (topics)
@@ -102,8 +117,11 @@ saveToFileAndLoadCsv <- function(prefix, top.n, modelPath, vocab){
 
 
 # print.topics(words.fn, vocab.fn, topics.fn, top.n)
+vocab.fn <- paste0("data/blei/", vocab)
 
-t_modeTable <- saveToFileAndLoadCsv('mode', 20, 'models/hdp/', 'mc_vocab.dat')
-t_modeTable1 <- saveToFileAndLoadCsv('mode', 20, 'models/hdp_e/', 'mc_e_vocab.dat')
+t_modeTable <- saveToFileAndLoadCsv('mode', 20, 'results/models/hdp/', 'mc_vocab.dat')
+t_modeTable1 <- saveToFileAndLoadCsv('mode', 20, 'results/models/hdp_e/', 'mc_e_vocab.dat')
 
-write.csv(t_modeTable1, file = 'results/models/hdp_e/terms_HDP.csv')
+write.csv(t_modeTable, file = 'results/models/hdp/terms_HDP.csv')
+
+doc_distribution <- print.terms('results/models/hdp/mode-word-assignments.dat')

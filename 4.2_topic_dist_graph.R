@@ -42,8 +42,8 @@ df <- as.data.frame(matrix(nrow = 153))
 df$DocID <- c(1:153)
 df$variable <- 'Topic 1' # topics
 df$value <- 1
-df$V1 <- NULL
-df[26, ]$variable <- 'Topic 2'
+# df$V1 <- NULL
+# df[26, ]$variable <- 'Topic 2'
 
 ggplot(data=df, aes(x=DocID, y=value)) +
   geom_bar(stat="identity") +
