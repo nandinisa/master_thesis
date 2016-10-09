@@ -5,7 +5,7 @@ library(ggplot2)
 library(reshape2)
 
 # All utility functions
-set.seed(5)
+set.seed(5) # sample(1:1000, 1)
 topics <- NULL
 SEED <- NULL
 alpha <- NULL
@@ -16,6 +16,7 @@ load('data/dtm/corpus_e.dtm.RData')
 
 setGlobalVariables <- function(){
   assign("topics", c(3, 5, 8), envir = .GlobalEnv)
+  # SEED <- sample(1:1000, 1) 177
   assign("SEED", 177, envir = .GlobalEnv)
   
   load("results/k_eval_cv/corpus.rda")

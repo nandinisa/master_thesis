@@ -154,7 +154,7 @@ plot_result <- function(df){
           corpus_perplexity1[corpus_perplexity1$dataset == set1[i],]$Perplexity, col=lineCol1[i],lwd=1.5) # adds a line for defense expenditures
   }
   
-  legend(max(topics) - 0.8, max(corpus_perplexity1$Perplexity) - 0.3, # places a legend at the appropriate place
+  legend(max(topics) - 1, max(corpus_perplexity1$Perplexity) - 0.3, # places a legend at the appropriate place
          set1, # puts text in the legend
          lty=1, # gives the legend appropriate symbols (lines)
          lwd=c(2.5,2.5),col=lineCol1,
@@ -171,7 +171,7 @@ plot_result <- function(df){
           corpus_perplexity2[corpus_perplexity2$dataset == set2[i],]$Perplexity, col=lineCol2[i],lwd=1.5) # adds a line for defense expenditures
   }
   
-  legend(max(topics) - 0.8, max(corpus_perplexity2$Perplexity) - 0.3, # places a legend at the appropriate place
+  legend(max(topics) - 1, max(corpus_perplexity2$Perplexity) - 0.3, # places a legend at the appropriate place
          set2, # puts text in the legend
          lty=1, # gives the legend appropriate symbols (lines)
          lwd=c(2.5,2.5),col=lineCol2,

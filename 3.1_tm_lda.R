@@ -13,14 +13,6 @@ train_model_lda <- function(){
   # training_data - 1:153
   mc <- corpus.dtm[1:153,]
   
-  # 53, 43
-  # 14, 0510
-  # 32, 14072016, 09102016  - really good
-  #14072016, 177,343, 616
-  SEED <- sample(1:1000, 1)
-  SEED<-616
-  
-  
   for(k in topics){
     mc_model_lda[[k]] <- list(
       vem = LDA(mc, k = k, control = list(alpha = alpha[as.character(k),], seed = SEED)),
@@ -32,8 +24,8 @@ train_model_lda <- function(){
     
   }
   
-  topTenLdaVEM_616 <- terms(mc_model_lda[[5]]$vem_fixed, 10)
-  View(topTenLdaVEM_616)
+  # topTenLdaVEM <- terms(mc_model_lda[[5]]$vem_fixed, 10)
+  # View(topTenLdaVEM)
   
   save(mc_model_lda, file = paste0(file_path, "mc_model_lda.rda"))
   return (mc_model_lda)
@@ -220,7 +212,7 @@ plot_result <- function(df){
             corpus_perplexity1[corpus_perplexity1$dataset == set1[i],]$perplexity, col=lineCol1[i],lwd=1.5) # adds a line for defense expenditures
     }
     
-    legend(max(topics) - 0.8, max(corpus_perplexity1$perplexity) - 0.3, # places a legend at the appropriate place
+    legend(max(topics) - 1, max(corpus_perplexity1$perplexity) - 0.2, # places a legend at the appropriate place
            set1, # puts text in the legend
            lty=1, # gives the legend appropriate symbols (lines)
            lwd=c(2.5,2.5),col=lineCol1,
@@ -236,7 +228,7 @@ plot_result <- function(df){
             corpus_perplexity2[corpus_perplexity2$dataset == set2[i],]$perplexity, col=lineCol2[i],lwd=1.5) # adds a line for defense expenditures
     }
     
-    legend(max(topics) - 0.8, max(corpus_perplexity2$perplexity) -0.3, # places a legend at the appropriate place
+    legend(max(topics) - 1, max(corpus_perplexity2$perplexity) -0.8, # places a legend at the appropriate place
            set2, # puts text in the legend
            lty=1, # gives the legend appropriate symbols (lines)
            lwd=c(2.5,2.5),col=lineCol2,
