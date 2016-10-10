@@ -7,6 +7,7 @@ source('util.R')
 # pat_test_data - 272:1563
 # merge_test_data - 1564: 3142
 
+
 # Training model function starts
 train_model_lda <- function(){
   mc_model_lda <- list()
@@ -251,6 +252,8 @@ setGlobalVariables()
 
 methods <- c('vem', 'vem_fixed', 'gibbs')
 file_path <- 'results/models/lda/'
+
+SEED <- 177 # sample(1:1000, 1)
 
 # Train model on train data and save the model file
 mc_model_lda <- train_model_lda()

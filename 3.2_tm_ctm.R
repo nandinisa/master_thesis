@@ -14,19 +14,18 @@ train_model_ctm <- function(){
   # iter.max for maximum number of iterations, and tol for tolerance for relative change in the likelihood.
   # Iter.max:
   mc_model_ctm <- list()
-  
   for(k in topics){
     mc_model_ctm[[k]] <- list(
       CTM = CTM(corpus_e.dtm[1:153,], k = k, control = list(seed = SEED, 
-                                                            var = list(tol = 10^-6, iter.max = 20), 
-                                                            em = list(tol = 10^-3, iter.max = 1000),
+                                                            var = list(tol = 10^-6, iter.max = 1000), 
+                                                            em = list(tol = 10^-4, iter.max = 10000),
                                                             cg = list(tol = 10^-6, iter.max = -1))))
     
   }
   
-  topTenLdaVEM <- terms(mc_model_ctm[[5]]$CTM, 10)
-  View(topTenLdaVEM)
-  
+  # topTenLdaVEM <- terms(mc_model_ctm[[5]]$CTM, 10)
+  # View(topTenLdaVEM)
+  # 
   save(mc_model_ctm, file = paste0(file_path, "mc_model_ctm.rda"))
   return(mc_model_ctm)
 }
@@ -188,6 +187,8 @@ plot_result <- function(df){
 setGlobalVariables()
 
 file_path <- 'results/models/ctm/'
+
+SEED <- 41 # sample(1:1000, 1)
 
 # Train model on train data and save the model file
 mc_model_ctm <- train_model_ctm()
